@@ -1,0 +1,236 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    >
+
+    <!-- Top guideline at 10% -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.10" />
+
+    <!-- Bottom guideline at 80% -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.86" />
+
+    <!-- Parent div (black) -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/divContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/colorWhite"
+        app:layout_constraintTop_toBottomOf="@id/guidelineTop"
+        app:layout_constraintBottom_toTopOf="@id/guidelineBottom"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Upper child div (red) with internal layout for text -->
+
+        <!-- Lower child div (blue) -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/childDiv1"
+            android:layout_width="372dp"
+            android:layout_height="85dp"
+            android:layout_marginStart="20sp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="20sp"
+            android:background="#FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.20"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <!-- First text box -->
+            <TextView
+                android:id="@+id/textBox1"
+                style="@style/TextBold2Xl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="@string/title_login"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Second text box -->
+            <TextView
+                android:id="@+id/textBox2"
+                style="@style/TextRegularBase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/subtitle_login"
+                android:textColor="#827D89"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textBox1" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Lower child div (blue) -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/childDiv2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@color/colorWhite"
+            app:layout_constraintTop_toBottomOf="@id/childDiv1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <!-- First sub-box: 60% -->
+            <LinearLayout
+                android:id="@+id/subBox1"
+                android:layout_width="365dp"
+                android:layout_height="228dp"
+                android:background="#FFFFFF"
+                android:orientation="vertical"
+                android:padding="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.55"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <!-- Email Label -->
+                <TextView
+                    style="@style/TextMediumBase"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/label_email"
+                    android:textColor="@color/colorBlack" />
+
+                <!-- Email Input -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/inputLayoutEmail"
+                    style="@style/Widget.PlaceholderCredential"
+                    android:hint="@string/placeholder_email">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/inputEmail"
+                        style="@style/Widget.PlaceholderCredential.EditText"
+                        android:inputType="textEmailAddress" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Password Label -->
+                <TextView
+                    style="@style/TextMediumBase"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/label_password"
+                    android:textColor="@color/colorBlack" />
+
+                <!-- Password Input -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/inputLayoutPassword"
+                    style="@style/Widget.PlaceholderCredential"
+                    android:hint="@string/placeholder_password">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/inputPassword"
+                        style="@style/Widget.PlaceholderCredential.EditText"
+                        android:inputType="textPassword" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+
+
+
+
+            <!-- Second sub-box: 30%, below a 10% gap -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/subBox2"
+                android:layout_width="373dp"
+                android:layout_height="166dp"
+                android:background="#FFFFFF"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.35"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/subBox1">
+
+                <!-- Example: Add your drawable as a Button or ImageView -->
+                <ImageView
+                    android:id="@+id/loginButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/button_primary_block"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/buttonOverlayText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/button_login"
+                    style="@style/TextMediumBase"
+                    android:textColor="@color/colorWhite"
+                    android:gravity="center"
+                    android:clickable="false"
+                    android:focusable="false"
+                    app:layout_constraintStart_toStartOf="@id/loginButton"
+                    app:layout_constraintEnd_toEndOf="@id/loginButton"
+                    app:layout_constraintTop_toTopOf="@id/loginButton"
+                    app:layout_constraintBottom_toBottomOf="@id/loginButton"/>
+
+                <!-- Divider image, centered horizontally below buttonDrawable -->
+
+                <!-- Text-only button -->
+                <ImageView
+                    android:id="@+id/dividerImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:src="@drawable/divider"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.488"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/loginButton" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/textButton"
+                    style="@style/TextMediumBase"
+                    android:layout_width="336dp"
+                    android:layout_height="36dp"
+                    android:layout_marginTop="12dp"
+                    android:backgroundTint="@android:color/transparent"
+                    android:elevation="0dp"
+                    android:padding="0dp"
+                    android:stateListAnimator="@null"
+                    android:text="@string/button_account"
+                    android:textAllCaps="false"
+                    android:textColor="?attr/colorPrimary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dividerImage" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

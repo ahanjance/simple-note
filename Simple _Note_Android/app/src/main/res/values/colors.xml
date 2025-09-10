@@ -19,4 +19,12 @@
     <color name="colorSecondaryDark">#565510</color>
     <color name="colorSecondaryExtraLight">#f7f6d4</color>
 
+    <!-- Neutral Palette -->
+    <color name="colorBlack">#180e25</color>
+    <color name="colorDarkGray">#827d89</color>
+    <color name="colorBaseGrey">#c8c5cb</color>
+    <color name="colorLightGrey">#efeef0</color>
+    <color name="colorWhite">#ffffff</color>
+
+
 </resources>
