@@ -1,0 +1,81 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorPrimary">
+
+    <!-- Vertical Guideline at 20% from top -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/topGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.25"
+        android:orientation="horizontal" />
+
+    <ImageView
+        android:id="@+id/illustration"
+        android:layout_width="280dp"
+        android:layout_height="280dp"
+        android:src="@drawable/illustration1"
+        android:scaleType="fitCenter"
+        app:layout_constraintTop_toBottomOf="@id/topGuideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/welcomeText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/welcome_message"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/illustration"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:paddingHorizontal="32dp"
+        style="@style/TextBoldLg"
+        android:textColor="@android:color/white"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/bottomGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.9" /> <!-- 90% from top -->
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/getStartedButton"
+        android:layout_width="328dp"
+        android:layout_height="72dp"
+        android:fontFamily="@font/inter_bold"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="?attr/colorPrimary"
+        app:strokeWidth="1dp"
+        app:strokeColor="?attr/colorPrimary"
+        app:cornerRadius="100dp"
+        android:backgroundTint="@android:color/white"
+        android:elevation="0dp"
+        android:stateListAnimator="@null"
+        app:rippleColor="#D3D3D3"
+        app:layout_constraintBottom_toTopOf="@id/bottomGuideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Overlay Text on top of the button -->
+    <TextView
+        android:id="@+id/buttonOverlayText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/started_message"
+        style="@style/TextMediumBase"
+        android:gravity="center"
+        android:clickable="false"
+        android:focusable="false"
+        app:layout_constraintStart_toStartOf="@id/getStartedButton"
+        app:layout_constraintEnd_toEndOf="@id/getStartedButton"
+        app:layout_constraintTop_toTopOf="@id/getStartedButton"
+        app:layout_constraintBottom_toBottomOf="@id/getStartedButton"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

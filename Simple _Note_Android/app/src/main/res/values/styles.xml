@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Regular / text-xs -->
+    <style name="TextRegularXs">
+        <item name="android:fontFamily">@font/inter_regular</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <!-- Regular / text-2xs -->
+    <style name="TextRegular2Xs">
+        <item name="android:fontFamily">@font/inter_regular</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <!-- Regular / text-sm -->
+    <style name="TextRegularSm">
+        <item name="android:fontFamily">@font/inter_regular</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:lineSpacingMultiplier">1.4</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <!-- Regular / text-base -->
+    <style name="TextRegularBase">
+        <item name="android:fontFamily">@font/inter_regular</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:lineSpacingMultiplier">1.4</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+    </style>
+
+    <!-- Regular / text-lg -->
+    <style name="TextRegularLg">
+        <item name="android:fontFamily">@font/inter_regular</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:lineSpacingMultiplier">1.4</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <!-- Regular / text-xl -->
+    <style name="TextRegularXl">
+        <item name="android:fontFamily">@font/inter_regular</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <!-- Regular / text-2xl -->
+    <style name="TextRegular2Xl">
+        <item name="android:fontFamily">@font/inter_regular</item>
+        <item name="android:textSize">32sp</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <!-- Regular / text-3xl -->
+    <style name="TextRegular3Xl">
+        <item name="android:fontFamily">@font/inter_regular</item>
+        <item name="android:textSize">40sp</item>
+        <item name="android:lineSpacingMultiplier">1.1</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <!-- Medium / text-xs -->
+    <style name="TextMediumXs">
+        <item name="android:fontFamily">@font/inter_medium</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <!-- Medium / text-2xs -->
+    <style name="TextMedium2Xs">
+        <item name="android:fontFamily">@font/inter_medium</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <!-- Medium / text-sm -->
+    <style name="TextMediumSm">
+        <item name="android:fontFamily">@font/inter_medium</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:lineSpacingMultiplier">1.4</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <!-- Medium / text-base -->
+    <style name="TextMediumBase">
+        <item name="android:fontFamily">@font/inter_medium</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:lineSpacingMultiplier">1.4</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+    </style>
+
+    <!-- Medium / text-lg -->
+    <style name="TextMediumLg">
+        <item name="android:fontFamily">@font/inter_medium</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:lineSpacingMultiplier">1.4</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <!-- Medium / text-xl -->
+    <style name="TextMediumXl">
+        <item name="android:fontFamily">@font/inter_medium</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <!-- Medium / text-2xl -->
+    <style name="TextMedium2Xl">
+        <item name="android:fontFamily">@font/inter_medium</item>
+        <item name="android:textSize">32sp</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <!-- Medium / text-3xl -->
+    <style name="TextMedium3Xl">
+        <item name="android:fontFamily">@font/inter_medium</item>
+        <item name="android:textSize">40sp</item>
+        <item name="android:lineSpacingMultiplier">1.1</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <!-- Bold / text-xs -->
+    <style name="TextBoldXs">
+        <item name="android:fontFamily">@font/inter_bold</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <!-- Bold / text-2xs -->
+    <style name="TextBold2Xs">
+        <item name="android:fontFamily">@font/inter_bold</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <!-- Bold / text-sm -->
+    <style name="TextBoldSm">
+        <item name="android:fontFamily">@font/inter_bold</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:lineSpacingMultiplier">1.4</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <!-- Bold / text-base -->
+    <style name="TextBoldBase">
+        <item name="android:fontFamily">@font/inter_bold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:lineSpacingMultiplier">1.4</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+    </style>
+
+    <!-- Bold / text-lg -->
+    <style name="TextBoldLg">
+        <item name="android:fontFamily">@font/inter_bold</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:lineSpacingMultiplier">1.4</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <!-- Bold / text-xl -->
+    <style name="TextBoldXl">
+        <item name="android:fontFamily">@font/inter_bold</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <!-- Bold / text-2xl -->
+    <style name="TextBold2Xl">
+        <item name="android:fontFamily">@font/inter_bold</item>
+        <item name="android:textSize">32sp</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <!-- Bold / text-3xl -->
+    <style name="TextBold3Xl">
+        <item name="android:fontFamily">@font/inter_bold</item>
+        <item name="android:textSize">40sp</item>
+        <item name="android:lineSpacingMultiplier">1.1</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+</resources>
+
+
