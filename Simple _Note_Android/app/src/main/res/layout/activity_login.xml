@@ -209,7 +209,7 @@
                     app:layout_constraintTop_toBottomOf="@id/loginButton" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/textButton"
+                    android:id="@+id/buttonRegRedirect"
                     style="@style/TextMediumBase"
                     android:layout_width="336dp"
                     android:layout_height="36dp"

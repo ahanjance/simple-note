@@ -13,20 +13,21 @@ import com.google.android.material.textfield.TextInputEditText
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.button.MaterialButton
 
-class LoginActivity : AppCompatActivity() {
+class SignupActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.activity_signup)
 
-        val rootView = findViewById<ConstraintLayout>(R.id.login)
+        val rootView = findViewById<ConstraintLayout>(R.id.signup)
         ViewCompat.setOnApplyWindowInsetsListener(rootView) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
+        // Helper function to handle placeholder disappearance
         fun setupHintBehavior(layout: TextInputLayout, editText: TextInputEditText, placeholderResId: Int) {
             val placeholder = getString(placeholderResId)
             fun updateHint() {
@@ -41,14 +42,19 @@ class LoginActivity : AppCompatActivity() {
             updateHint()
         }
 
-        setupHintBehavior(findViewById(R.id.inputLayoutEmail), findViewById(R.id.inputEmail), R.string.placeholder_email)
-        setupHintBehavior(findViewById(R.id.inputLayoutPassword), findViewById(R.id.inputPassword), R.string.placeholder_password)
+        // Setup all 6 input fields
+        setupHintBehavior(findViewById(R.id.inputFirstNameLayout), findViewById(R.id.inputFirstName), R.string.placeholder_firstname)
+        setupHintBehavior(findViewById(R.id.inputLastNameLayout), findViewById(R.id.inputLastName), R.string.placeholder_lastname)
+        setupHintBehavior(findViewById(R.id.inputUsernameLayout), findViewById(R.id.inputUsername), R.string.placeholder_username)
+        setupHintBehavior(findViewById(R.id.inputEmailLayout), findViewById(R.id.inputEmail), R.string.placeholder_email)
+        setupHintBehavior(findViewById(R.id.inputPasswordLayout), findViewById(R.id.inputPassword), R.string.placeholder_password)
+        setupHintBehavior(findViewById(R.id.inputConfirmPasswordLayout), findViewById(R.id.inputConfirmPassword), R.string.placeholder_confirm_password)
 
-        // Navigate to SignupActivity when "Don't have an account?" button is pressed
-        val regRedirectButton = findViewById<MaterialButton>(R.id.buttonRegRedirect) // or your actual button id
-        regRedirectButton .setOnClickListener {
-            val intent = Intent(this, SignupActivity::class.java)
-            startActivity(intent)
+        // "Already have an account?" button
+        val logRedirectButton = findViewById<MaterialButton>(R.id.logRedirectButton)
+        logRedirectButton.setOnClickListener {
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish() // prevent back navigation to signup
         }
     }
 }
