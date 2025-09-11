@@ -4,6 +4,10 @@ struct RootView: View {
     @State private var path = NavigationPath()
     @State private var showLogoutConfirmation = false
     @State private var showNoteDeleteConfirmation = false
+    @State private var searchText: String = ""
+
+    // Notes data (shared state for the app)
+    @State private var notes: [Note] = []
 
     var body: some View {
         ZStack {
@@ -40,7 +44,12 @@ struct RootView: View {
                     case "addNote":
                         AddNoteView(
                             onBack: { path.removeLast() },
-                            onDelete: { path.removeLast() }
+                            onDelete: { showNoteDeleteConfirmation = true },
+                            onSave: { title, content, color in
+                                // Save logic (e.g., add to notes array)
+                                notes.append(Note(title: title, content: content, backgroundColor: color))
+                                path.removeLast()
+                            }
                         )
                     case "noteDetail":
                         NoteDetailView(
@@ -52,6 +61,28 @@ struct RootView: View {
                             onBack: { path.removeLast() },
                             onSubmit: { path.removeLast() }
                         )
+                    case "profileEdit":
+                        ProfileEditView(onBack: { path.removeLast() })
+                    case "searchResults":
+                        SearchResultsView(
+                            searchText: $searchText,
+                            notes: notes,
+                            onNoteSelected: { note in
+                                path.append("noteDetail")
+                            }
+                        )
+                    case "folders":
+                        FoldersView(onBack: { path.removeLast() })
+                    case "trash":
+                        TrashNotesView(
+                            onRestore: { note in
+                                notes.append(note)
+                            },
+                            onPermanentDelete: { note in
+                                // Permanent delete logic (remove from deleted list)
+                            },
+                            onBack: { path.removeLast() }
+                        )
                     default:
                         Text("Unknown Destination")
                     }
@@ -59,9 +90,8 @@ struct RootView: View {
                 .toolbar(.hidden, for: .navigationBar)
             }
 
-            // Blurred confirmation overlays
+            // Modals with blurry backgrounds
             if showLogoutConfirmation {
-                // Blurred background
                 Rectangle()
                     .ignoresSafeArea()
                     .background(.ultraThinMaterial)
@@ -69,19 +99,17 @@ struct RootView: View {
                     .opacity(0.7)
                     .transition(.opacity)
 
-                // Logout Confirmation Modal
                 LogoutConfirmationView(
                     onCancel: { showLogoutConfirmation = false },
                     onConfirm: {
                         showLogoutConfirmation = false
-                        path = NavigationPath()
+                        path = NavigationPath()  // Log out and reset to onboarding/login
                     }
                 )
                 .transition(.scale)
             }
 
             if showNoteDeleteConfirmation {
-                // Blurred background
                 Rectangle()
                     .ignoresSafeArea()
                     .background(.ultraThinMaterial)
@@ -89,12 +117,11 @@ struct RootView: View {
                     .opacity(0.7)
                     .transition(.opacity)
 
-                // Note Delete Confirmation Modal
                 NoteDeleteConfirmationView(
                     onCancel: { showNoteDeleteConfirmation = false },
                     onDelete: {
                         showNoteDeleteConfirmation = false
-                        path.removeLast()  // Perform delete and pop back
+                        path.removeLast()  // Delete and pop view
                     }
                 )
                 .transition(.scale)

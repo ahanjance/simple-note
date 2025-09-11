@@ -28,7 +28,7 @@ struct ChangePasswordView: View {
                     .font(.custom("Inter-Medium", size: 16))
                     .foregroundColor(.black)
                     .frame(height: 22)
-                    .padding(.trailing, 128) // for centering
+                Spacer()
             }
             .frame(height: 54)
             .padding(.horizontal, 8)
@@ -144,6 +144,7 @@ struct ChangePasswordView: View {
             .padding(.vertical, 18)
         }
         .background(Color.white.ignoresSafeArea())
+        .navigationBarBackButtonHidden(true)  // Hide default navigation back button
     }
 }
 

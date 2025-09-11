@@ -79,6 +79,7 @@ struct RegisterView: View {
                             Spacer()
                             Image(systemName: "arrow.right")
                                 .font(.system(size: 20, weight: .bold))
+                                .padding(.trailing, 12)
                         }
                         .frame(width: 328, height: 54)
                     }

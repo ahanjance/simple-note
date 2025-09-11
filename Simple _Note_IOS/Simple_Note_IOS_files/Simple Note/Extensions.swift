@@ -3,9 +3,7 @@ import SwiftUI
 extension Color {
     init(hex: String) {
         var hexString = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
-        if hexString.hasPrefix("#") {
-            hexString.removeFirst()
-        }
+        if hexString.hasPrefix("#") { hexString.removeFirst() }
         var rgb: UInt64 = 0
         Scanner(string: hexString).scanHexInt64(&rgb)
         let r = Double((rgb >> 16) & 0xFF) / 255
