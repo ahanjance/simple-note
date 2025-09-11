@@ -224,17 +224,34 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp">
 
+                <!-- Error Text -->
+                <TextView
+                    android:id="@+id/signupErrorText"
+                    android:layout_width="220dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="14sp"
+                    android:gravity="center"
+                    android:paddingBottom="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/signupButton"/>
+
                 <!-- Primary Button -->
+
+                <!-- Overlay Text -->
+
                 <ImageView
                     android:id="@+id/signupButton"
                     android:layout_width="match_parent"
                     android:layout_height="54dp"
+                    android:layout_marginTop="44dp"
                     android:src="@drawable/button_primary_block"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <!-- Overlay Text -->
                 <TextView
                     android:id="@+id/buttonOverlayText"
                     android:layout_width="wrap_content"
