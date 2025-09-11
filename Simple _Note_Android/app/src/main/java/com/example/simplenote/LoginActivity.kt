@@ -89,33 +89,59 @@ class LoginActivity : AppCompatActivity() {
 
             CoroutineScope(Dispatchers.IO).launch {
                 try {
+                    // Login request
                     val response = RetrofitClient.apiService.login(LoginRequest(username = username, password = password))
 
                     runOnUiThread {
-                        // Remove pressed/loading state
                         loginButton.clearColorFilter()
+                    }
 
-                        if (response.isSuccessful) {
-                            val body: TokenResponse? = response.body()
-                            val access = body?.access
-                            val refresh = body?.refresh
+                    if (response.isSuccessful) {
+                        val body: TokenResponse? = response.body()
+                        val access = body?.access
+                        val refresh = body?.refresh
 
-                            if (!access.isNullOrBlank()) {
-                                val prefs = getSharedPreferences("auth", Context.MODE_PRIVATE)
-                                prefs.edit()
-                                    .putString("access_token", "Bearer $access")
-                                    .putString("refresh_token", refresh)
-                                    .apply()
+                        if (!access.isNullOrBlank()) {
+                            // Save tokens
+                            val prefs = getSharedPreferences("auth", Context.MODE_PRIVATE)
+                            prefs.edit()
+                                .putString("access_token", access) // raw token
+                                .putString("refresh_token", refresh)
+                                .apply()
+
+                            // Fetch notes
+                            try {
+                                val notesResponse = RetrofitClient.apiService.getNotes("Bearer $access")
+                                runOnUiThread {
+                                    if (notesResponse.isSuccessful) {
+                                        val notes = notesResponse.body()?.results ?: emptyList()
+                                        if (notes.isEmpty()) {
+                                            startActivity(Intent(this@LoginActivity, StartActivity::class.java))
+                                        } else {
+                                            startActivity(Intent(this@LoginActivity, NotelistActivity::class.java))
+                                        }
+                                        finish()
+                                    } else {
+                                        Log.e("Login", "Notes fetch error: ${notesResponse.errorBody()?.string()}")
+                                        errorText.text = "Error loading notes"
+                                        errorText.visibility = TextView.VISIBLE
+                                    }
+                                }
+                            } catch (e: Exception) {
+                                Log.e("Login", "Exception fetching notes: ${e.message}")
+                                runOnUiThread {
+                                    errorText.text = "Error loading notes"
+                                    errorText.visibility = TextView.VISIBLE
+                                }
                             }
-
-                            startActivity(Intent(this@LoginActivity, NotelistActivity::class.java))
-                            finish()
-                        } else {
-                            // Always show fixed invalid credentials error
+                        }
+                    } else {
+                        runOnUiThread {
                             errorText.text = "Invalid username or password"
                             errorText.visibility = TextView.VISIBLE
                         }
                     }
+
                 } catch (e: Exception) {
                     Log.e("Login", "Network exception: ${e.message}")
                     runOnUiThread {

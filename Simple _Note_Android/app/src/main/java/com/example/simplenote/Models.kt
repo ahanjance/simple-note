@@ -27,8 +27,18 @@ data class Note(
     val title: String,
     val description: String,
     val created_at: String,
-    val updated_at: String
+    val updated_at: String,
+    val creator_name: String,
+    val creator_username: String
 )
+
+data class NotesResponse(
+    val count: Int,
+    val next: String?,
+    val previous: String?,
+    val results: List<Note>
+)
+
 
 data class NoteRequest(
     val title: String,

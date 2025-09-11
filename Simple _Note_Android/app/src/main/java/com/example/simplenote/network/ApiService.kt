@@ -17,7 +17,7 @@ interface ApiService {
     @GET("api/notes/")
     suspend fun getNotes(
         @Header("Authorization") token: String
-    ): Response<List<Note>>
+    ): Response<NotesResponse>
 
     @POST("api/notes/")
     suspend fun createNote(
@@ -37,4 +37,6 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Path("id") id: Int
     ): Response<Unit>
+
+
 }
