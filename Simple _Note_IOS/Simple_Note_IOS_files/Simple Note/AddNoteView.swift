@@ -129,9 +129,9 @@ struct AddNoteView: View {
             .shadow(color: Color(hex: "#EFEEF0"), radius: 0, x: 0, y: -1)
         }
         .ignoresSafeArea(.keyboard, edges: .bottom)
+        .navigationBarBackButtonHidden(true)  // Hide default back button to prevent duplicate
     }
 }
-
 
 #Preview {
     AddNoteView()

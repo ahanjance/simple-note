@@ -5,23 +5,21 @@ struct OnboardingView: View {
 
     var body: some View {
         ZStack {
-            Color(hex: "#504EC3")  // بنفش دقیق پس‌زمینه
+            Color(hex: "#504EC3")
                 .ignoresSafeArea()
 
             VStack(spacing: 0) {
                 Spacer()
-                    .frame(height: 56) // فاصله تا بالای تصویر تقریباً 128-280/2-28 (جهت هماهنگی با استاتوس بار)
+                    .frame(height: 56)
 
-                // Illustration
-                Image("onboarding_1_illustration") // تصویر را با همین نام در Assets قرار بدهید
+                Image("onboarding_1_illustration")
                     .resizable()
                     .renderingMode(.original)
                     .frame(width: 280, height: 280)
                     .padding(.bottom, 32)
 
-                // Title
                 Text("Jot Down anything you want to achieve, today or in the future")
-                    .font(.custom("Inter-Bold", size: 20)) // فونت Inter بولد
+                    .font(.custom("Inter-Bold", size: 20))
                     .foregroundColor(.white)
                     .multilineTextAlignment(.leading)
                     .frame(width: 328, height: 56, alignment: .leading)
@@ -31,15 +29,15 @@ struct OnboardingView: View {
 
                 Spacer()
 
-                // Button
                 Button(action: onGetStarted) {
                     HStack {
                         Spacer()
-                        Text("Let’s Get Started")
+                        Text("Let's Get Started")
                             .font(.custom("Inter-Medium", size: 17))
-                        Spacer()
+                            .padding(.trailing, 55)  // Add space between text and arrow
                         Image(systemName: "arrow.right")
                             .font(.system(size: 20, weight: .bold))
+                            .padding(.trailing, 16)  // Move arrow left from right edge
                     }
                     .frame(width: 328, height: 54)
                 }
@@ -58,7 +56,6 @@ struct OnboardingView: View {
         }
     }
 }
-
 
 #Preview {
     OnboardingView()

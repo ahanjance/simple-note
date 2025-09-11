@@ -1,5 +1,6 @@
 import SwiftUI
 
+// Note model (keep this as is)
 struct Note: Identifiable {
     let id = UUID()
     let title: String
@@ -7,9 +8,11 @@ struct Note: Identifiable {
     let backgroundColor: Color
 }
 
+// Updated HomeView with onTapGesture for each note
 struct HomeView: View {
     var onTapAdd: () -> Void = {}
     var onTapSettings: () -> Void = {}
+    var onNoteTapped: (Note) -> Void = { _ in }  // Callback to handle note tap
 
     @State private var searchText: String = ""
     @State private var notes: [Note] = [
@@ -73,6 +76,9 @@ struct HomeView: View {
                             .background(note.backgroundColor)
                             .cornerRadius(8)
                             .frame(width: 155, height: 224, alignment: .topLeading)
+                            .onTapGesture {
+                                onNoteTapped(note)  // Calls the callback to navigate to NoteDetailView with this note
+                            }
                         }
                     }
                     .padding(.horizontal, 16)
@@ -148,7 +154,6 @@ struct HomeView: View {
     }
 }
 
-
 #Preview {
-    AddNoteView()
+    HomeView()
 }

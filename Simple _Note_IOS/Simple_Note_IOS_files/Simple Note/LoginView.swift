@@ -11,7 +11,7 @@ struct LoginView: View {
         VStack(spacing: 0) {
             // ---- Screen Title ----
             VStack(alignment: .leading, spacing: 16) {
-                Text("Let’s Login")
+                Text("Let's Login")
                     .font(.custom("Inter-Bold", size: 32))
                     .foregroundColor(Color(hex: "#180E25"))
                     .frame(height: 38, alignment: .leading)
@@ -68,9 +68,10 @@ struct LoginView: View {
                         Spacer()
                         Text("Login")
                             .font(.custom("Inter-Medium", size: 17))
-                        Spacer()
+                            .padding(.trailing, 97)  // Add space between text and arrow
                         Image(systemName: "arrow.right")
                             .font(.system(size: 17, weight: .semibold))
+                            .padding(.trailing, 16)  // Move arrow left from right edge
                     }
                     .frame(width: 328, height: 54)
                 }
@@ -88,7 +89,7 @@ struct LoginView: View {
 
                 // Register link
                 Button(action: onRegisterTap) {
-                    Text("Don’t have any account? Register here")
+                    Text("Don't have any account? Register here")
                         .font(.custom("Inter-SemiBold", size: 16))
                         .foregroundColor(Color(hex: "#504EC3"))
                         .frame(width: 328, height: 54)
