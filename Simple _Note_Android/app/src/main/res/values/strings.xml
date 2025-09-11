@@ -29,4 +29,12 @@
     <string name="button_signup">Register</string>
     <string name="button_account_back">Already have an account? Login here</string>
 
+    <!-- Start Activity-->
+    <string name="start_title">Start Your Journey</string>
+    <string name="start_subtitle1">Every big step start with small step.</string>
+    <string name="start_subtitle2">Note your first idea and start</string>
+    <string name="start_subtitle3">your journey!</string>
+
+
+
 </resources>
