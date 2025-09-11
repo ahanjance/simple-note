@@ -14,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SimpleNote">
         <activity
+            android:name=".NoteActivity"
+            android:exported="false" />
+        <activity
             android:name=".StartActivity"
             android:exported="false" />
         <activity

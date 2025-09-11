@@ -1,4 +1,6 @@
-package com.example.simplenote.models
+package com.example.simplenote.local
+
+import com.google.gson.annotations.SerializedName
 
 // --- Authentication ---
 
@@ -22,15 +24,17 @@ data class RegisterRequest(
 
 // --- Notes ---
 
+
 data class Note(
     val id: Int,
     val title: String,
     val description: String,
-    val created_at: String,
-    val updated_at: String,
-    val creator_name: String,
-    val creator_username: String
+    @SerializedName("created_at") val createdAt: String,
+    @SerializedName("updated_at") val updatedAt: String,
+    @SerializedName("creator_name") val creatorName: String,
+    @SerializedName("creator_username") val creatorUsername: String
 )
+
 
 data class NotesResponse(
     val count: Int,
@@ -38,6 +42,7 @@ data class NotesResponse(
     val previous: String?,
     val results: List<Note>
 )
+
 
 
 data class NoteRequest(

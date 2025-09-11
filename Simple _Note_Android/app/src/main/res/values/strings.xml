@@ -35,6 +35,9 @@
     <string name="start_subtitle2">Note your first idea and start</string>
     <string name="start_subtitle3">your journey!</string>
 
+    <!-- Note Activity-->
+    <string name="note_title">Title</string>
+    <string name="note_desc">Feel Free to Write Here...</string>
 
 
 </resources>

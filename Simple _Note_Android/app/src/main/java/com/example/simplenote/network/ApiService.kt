@@ -1,6 +1,6 @@
 package com.example.simplenote.network
 
-import com.example.simplenote.models.*
+import com.example.simplenote.local.*
 import retrofit2.Response
 import retrofit2.http.*
 

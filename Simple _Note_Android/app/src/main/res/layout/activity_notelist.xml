@@ -16,6 +16,26 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.90" />
 
+    <!-- Upper div: Scrollable container for notes -->
+    <ScrollView
+        android:id="@+id/notesScrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomDiv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:id="@+id/notesContainer"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:gravity="center_horizontal"/>
+    </ScrollView>
+
     <!-- Bottom div (10% height) -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottomDiv"

@@ -11,8 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.simplenote.models.LoginRequest
-import com.example.simplenote.models.TokenResponse
+import com.example.simplenote.local.LoginRequest
+import com.example.simplenote.local.TokenResponse
 import com.example.simplenote.network.RetrofitClient
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
