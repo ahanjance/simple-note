@@ -8,8 +8,8 @@
     <!-- Login Activity-->
     <string name="title_login">Let\'s Login</string>
     <string name="subtitle_login">And notes your idea</string>
-    <string name="label_email">Email Address</string>
-    <string name="placeholder_email">Example: johndoe@gmail.com</string>
+    <string name="label_username">Username</string>
+    <string name="placeholder_username">Example: @HamifarTaha</string>
     <string name="label_password">Password</string>
     <string name="placeholder_password">********</string>
     <string name="button_login">Login</string>
@@ -22,8 +22,8 @@
     <string name="placeholder_firstname">Example: Taha</string>
     <string name="label_lastname">Last Name</string>
     <string name="placeholder_lastname">Example: Hamifar</string>
-    <string name="label_username">Username</string>
-    <string name="placeholder_username">Example: @HamifarTaha</string>
+    <string name="label_email">Email Address</string>
+    <string name="placeholder_email">Example: johndoe@gmail.com</string>
     <string name="label_confirm_password">Retype Password</string>
     <string name="placeholder_confirm_password">********</string>
     <string name="button_signup">Register</string>

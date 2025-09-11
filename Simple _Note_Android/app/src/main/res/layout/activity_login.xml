@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.86" />
+        app:layout_constraintGuide_percent="0.89" />
 
     <!-- Parent div (black) -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -87,44 +87,42 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             android:background="@color/colorWhite"
-            app:layout_constraintTop_toBottomOf="@id/childDiv1"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/childDiv1">
 
-            <!-- First sub-box: 60% -->
+            <!-- Upper sub-box = 55% -->
             <LinearLayout
                 android:id="@+id/subBox1"
-                android:layout_width="365dp"
-                android:layout_height="228dp"
+                android:layout_width="368dp"
+                android:layout_height="204dp"
                 android:background="#FFFFFF"
                 android:orientation="vertical"
-                android:padding="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHeight_percent="0.55"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <!-- Email Label -->
+                <!-- Username Label -->
                 <TextView
                     style="@style/TextMediumBase"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="0dp"
                     android:layout_marginBottom="4dp"
-                    android:text="@string/label_email"
+                    android:text="@string/label_username"
                     android:textColor="@color/colorBlack" />
 
-                <!-- Email Input -->
+                <!-- Username Input -->
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/inputLayoutEmail"
+                    android:id="@+id/inputLayoutUsername"
                     style="@style/Widget.PlaceholderCredential"
-                    android:hint="@string/placeholder_email">
+                    android:hint="@string/placeholder_username">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/inputEmail"
+                        android:id="@+id/inputUsername"
                         style="@style/Widget.PlaceholderCredential.EditText"
-                        android:inputType="textEmailAddress" />
+                        android:inputType="text" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Password Label -->
@@ -151,52 +149,66 @@
 
             </LinearLayout>
 
-
-
-
-
-            <!-- Second sub-box: 30%, below a 10% gap -->
+            <!-- Lower sub-box = 45% -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/subBox2"
                 android:layout_width="373dp"
-                android:layout_height="166dp"
+                android:layout_height="235dp"
                 android:background="#FFFFFF"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHeight_percent="0.35"
+                app:layout_constraintHeight_percent="0.45"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/subBox1">
 
-                <!-- Example: Add your drawable as a Button or ImageView -->
-                <ImageView
-                    android:id="@+id/loginButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="54dp"
+                <!-- Login error text -->
+                <TextView
+                    android:id="@+id/loginErrorText"
+                    android:layout_width="329dp"
+                    android:layout_height="31dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
-                    android:src="@drawable/button_primary_block"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="2"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <!-- Login button -->
+
+                <!-- Overlay text on login button -->
+                <ImageView
+                    android:id="@+id/loginButton"
+                    android:layout_width="0dp"
+                    android:layout_height="54dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/button_primary_block"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/loginErrorText" />
+
                 <TextView
                     android:id="@+id/buttonOverlayText"
+                    style="@style/TextMediumBase"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/button_login"
-                    style="@style/TextMediumBase"
-                    android:textColor="@color/colorWhite"
-                    android:gravity="center"
                     android:clickable="false"
                     android:focusable="false"
-                    app:layout_constraintStart_toStartOf="@id/loginButton"
+                    android:gravity="center"
+                    android:text="@string/button_login"
+                    android:textColor="@color/colorWhite"
+                    app:layout_constraintBottom_toBottomOf="@id/loginButton"
                     app:layout_constraintEnd_toEndOf="@id/loginButton"
-                    app:layout_constraintTop_toTopOf="@id/loginButton"
-                    app:layout_constraintBottom_toBottomOf="@id/loginButton"/>
+                    app:layout_constraintStart_toStartOf="@id/loginButton"
+                    app:layout_constraintTop_toTopOf="@id/loginButton" />
 
-                <!-- Divider image, centered horizontally below buttonDrawable -->
-
-                <!-- Text-only button -->
+                <!-- Divider -->
                 <ImageView
                     android:id="@+id/dividerImage"
                     android:layout_width="wrap_content"
@@ -204,16 +216,16 @@
                     android:layout_marginTop="20dp"
                     android:src="@drawable/divider"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.488"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/loginButton" />
 
+                <!-- Register redirect button -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/buttonRegRedirect"
                     style="@style/TextMediumBase"
                     android:layout_width="336dp"
                     android:layout_height="36dp"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="8dp"
                     android:backgroundTint="@android:color/transparent"
                     android:elevation="0dp"
                     android:padding="0dp"
@@ -225,10 +237,10 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/dividerImage" />
 
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
