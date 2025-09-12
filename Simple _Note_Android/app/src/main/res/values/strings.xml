@@ -38,6 +38,7 @@
     <!-- Note Activity-->
     <string name="note_title">Title</string>
     <string name="note_desc">Feel Free to Write Here...</string>
+    <string name="note_modal">Want to Delete this Note?</string>
 
 
 </resources>

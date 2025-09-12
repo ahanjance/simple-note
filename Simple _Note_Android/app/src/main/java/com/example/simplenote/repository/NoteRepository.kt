@@ -16,7 +16,7 @@ class NoteRepository(context: Context) {
 
     private val noteDao = AppDatabase.getInstance(context).noteDao()
 
-    // LiveData for UI
+    // LiveData for automatic updates in UI
     fun getLocalNotesLive(): LiveData<List<LocalNote>> = noteDao.getAllNotesLive()
 
     suspend fun getLocalNotes(): List<LocalNote> = noteDao.getAllNotes()
@@ -25,34 +25,56 @@ class NoteRepository(context: Context) {
         noteDao.insertNotes(notes)
     }
 
-    /**
-     * Sync unsynced notes to server
-     */
+    // Fetch notes from server and replace local copies (local always wins on conflicts later)
+    suspend fun fetchAndCacheNotes(token: String) {
+        try {
+            val response = RetrofitClient.apiService.getNotes("Bearer $token")
+            if (response.isSuccessful) {
+                val notes = response.body()?.results?.map { apiNote ->
+                    LocalNote(
+                        id = apiNote.id, // <-- server id
+                        title = apiNote.title,
+                        description = apiNote.description,
+                        createdAt = apiNote.createdAt,
+                        updatedAt = apiNote.updatedAt,
+                        creatorName = apiNote.creatorName,
+                        creatorUsername = apiNote.creatorUsername,
+                        isSynced = true
+                    )
+                } ?: emptyList()
+                noteDao.insertNotes(notes)
+            } else {
+                Log.e("NoteRepository", "Error fetching notes: ${response.code()}")
+            }
+        } catch (e: Exception) {
+            Log.e("NoteRepository", "Exception fetching notes: ${e.message}")
+        }
+    }
+
+    // Push only unsynced notes to server
     suspend fun syncUnsyncedNotes(token: String) {
         val unsyncedNotes = noteDao.getAllNotes().filter { !it.isSynced }
-
         for (note in unsyncedNotes) {
             try {
-                // Create NoteRequest with only title and description
-                val requestBody = NoteRequest(
+                val request = NoteRequest(
                     title = note.title,
                     description = note.description
                 )
 
-                val response = if (note.idOnServer == null) {
+                val response = if (note.id == 0) {
                     // New note → POST
-                    RetrofitClient.apiService.createNote("Bearer $token", requestBody)
+                    RetrofitClient.apiService.createNote("Bearer $token", request)
                 } else {
                     // Existing note → PUT
-                    RetrofitClient.apiService.updateNote("Bearer $token", note.idOnServer, requestBody)
+                    RetrofitClient.apiService.updateNote("Bearer $token", note.id, request)
                 }
 
                 if (response.isSuccessful) {
                     val body = response.body()!!
 
-                    // Update local note with server info
+                    // Update local database with server response
                     val updatedNote = note.copy(
-                        idOnServer = body.id,
+                        id = body.id,
                         title = body.title,
                         description = body.description,
                         createdAt = body.createdAt,
@@ -62,6 +84,7 @@ class NoteRepository(context: Context) {
                         isSynced = true
                     )
                     noteDao.insertNote(updatedNote)
+
                 } else {
                     Log.e("NoteRepository", "Sync failed for note ${note.id}: ${response.code()}")
                 }
@@ -71,11 +94,7 @@ class NoteRepository(context: Context) {
         }
     }
 
-
-
-    /**
-     * Start auto-sync every 20 seconds
-     */
+    // Start periodic background sync every 20s
     fun startAutoSync(token: String) {
         CoroutineScope(Dispatchers.IO).launch {
             while (true) {
