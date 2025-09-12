@@ -99,6 +99,10 @@ class NoteRepository(context: Context) {
         }
     }
 
+    suspend fun getLocalNotesPaginated(limit: Int, offset: Int): List<LocalNote> {
+        return noteDao.getNotesPaginated(limit, offset)
+    }
+
     // Start periodic background sync every 20s
     fun startAutoSync(token: String) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -112,4 +116,6 @@ class NoteRepository(context: Context) {
             }
         }
     }
+
+
 }

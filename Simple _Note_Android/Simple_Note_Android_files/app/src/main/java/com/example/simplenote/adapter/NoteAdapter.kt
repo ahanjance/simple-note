@@ -77,4 +77,7 @@ class NoteAdapter(
     }
 
     override fun getItemCount(): Int = notes.size
+
+    fun getNotes(): List<LocalNote> = notes
+
 }

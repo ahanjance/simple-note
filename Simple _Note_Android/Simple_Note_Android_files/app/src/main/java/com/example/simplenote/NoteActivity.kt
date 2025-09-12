@@ -6,6 +6,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import android.content.Context
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -109,6 +110,9 @@ class NoteActivity : AppCompatActivity() {
         titleEditText.addTextChangedListener { textWatcher() }
         descriptionEditText.addTextChangedListener { textWatcher() }
 
+        val prefs = getSharedPreferences("auth", Context.MODE_PRIVATE)
+        val username = prefs.getString("username", "me") ?: "me"
+
         // Save note
         saveButton.setOnClickListener {
             if (!saveButton.isEnabled) return@setOnClickListener
@@ -122,7 +126,7 @@ class NoteActivity : AppCompatActivity() {
                 createdAt = now,
                 updatedAt = now,
                 creatorName = "Me",
-                creatorUsername = "me",
+                creatorUsername = username, // <- set current logged-in user
                 isSynced = false
             )
 

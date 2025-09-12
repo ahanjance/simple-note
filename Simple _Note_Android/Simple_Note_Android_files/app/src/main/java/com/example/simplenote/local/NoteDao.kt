@@ -26,4 +26,8 @@ interface NoteDao {
     // Delete a note by its ID
     @Query("DELETE FROM notes WHERE id = :noteId")
     suspend fun deleteNoteById(noteId: Int)
+
+    @Query("SELECT * FROM notes ORDER BY updatedAt DESC LIMIT :limit OFFSET :offset")
+    suspend fun getNotesPaginated(limit: Int, offset: Int): List<LocalNote>
+
 }

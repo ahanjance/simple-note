@@ -1,5 +1,6 @@
 package com.example.simplenote
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
@@ -19,6 +20,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.simplenote.adapter.NoteAdapter
 import com.example.simplenote.local.LocalNote
 import com.example.simplenote.repository.NoteRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class NotelistActivity : AppCompatActivity() {
 
@@ -26,11 +31,18 @@ class NotelistActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var searchInput: EditText
     private lateinit var addNoteButton: ImageView
+    private lateinit var settingsButton: ImageView
     private lateinit var adapter: NoteAdapter
-    private var allNotes: List<LocalNote> = emptyList()
+    private var allNotes: MutableList<LocalNote> = mutableListOf()
     private val ITEM_HEIGHT_RATIO = 0.3f
 
-    // Launcher for NoteActivity
+    private val PAGE_SIZE = 20
+    private var isLoading = false
+    private var allLoaded = false
+    private var currentOffset = 0
+
+    private lateinit var username: String
+
     private val noteActivityLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
@@ -41,6 +53,7 @@ class NotelistActivity : AppCompatActivity() {
             }
         }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -49,8 +62,8 @@ class NotelistActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.recyclerViewNotes)
         searchInput = findViewById(R.id.searchInput)
         addNoteButton = findViewById(R.id.addNoteButton)
+        settingsButton = findViewById(R.id.settingsButton) // ✅ grab settings button
 
-        // Edge-to-edge padding
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(android.view.WindowInsets.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -71,7 +84,6 @@ class NotelistActivity : AppCompatActivity() {
         }
         recyclerView.adapter = adapter
 
-        // After layout measured, compute item height and send to adapter
         recyclerView.post {
             val h = recyclerView.height
             if (h > 0) {
@@ -79,12 +91,10 @@ class NotelistActivity : AppCompatActivity() {
             }
         }
 
-        // Add-note button with scale animation
+        // Add-note button
         addNoteButton.setOnTouchListener { v, event ->
             when (event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start()
-                }
+                MotionEvent.ACTION_DOWN -> v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start()
                 MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                     v.animate().scaleX(1f).scaleY(1f).setDuration(100).start()
                     if (event.action == MotionEvent.ACTION_UP) {
@@ -96,17 +106,20 @@ class NotelistActivity : AppCompatActivity() {
             true
         }
 
-        val prefs = getSharedPreferences("auth", Context.MODE_PRIVATE)
-        val token = prefs.getString("access_token", null)
-
-        if (token.isNullOrBlank()) {
-            // Not logged in
-            return
+        // ✅ Settings button → open SettingsActivity
+        settingsButton.setOnClickListener {
+            val intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)
         }
 
-        // Observe local notes
+        val prefs = getSharedPreferences("auth", Context.MODE_PRIVATE)
+        username = prefs.getString("username", "me") ?: "me"
+        val token = prefs.getString("access_token", null)
+        if (token.isNullOrBlank()) return
+
+        // Observe local notes via LiveData filtered by logged-in user
         repository.getLocalNotesLive().observe(this, Observer { notes ->
-            allNotes = notes
+            allNotes = notes.filter { it.creatorUsername == username }.toMutableList()
             adapter.updateNotes(filterNotes(searchInput.text.toString().trim(), allNotes))
         })
 
@@ -120,12 +133,10 @@ class NotelistActivity : AppCompatActivity() {
     private fun filterNotes(query: String, notes: List<LocalNote>): List<LocalNote> {
         if (query.isEmpty()) return notes
         val lower = query.lowercase()
-        return notes.filter {
-            it.title.lowercase().contains(lower) || it.description.lowercase().contains(lower)
-        }
+        return notes.filter { it.title.lowercase().contains(lower) || it.description.lowercase().contains(lower) }
     }
 
-    // Unfocus search bar when tapping outside
+    // Hide keyboard on outside touch
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
         if (ev.action == MotionEvent.ACTION_DOWN) {
             currentFocus?.let { view ->
@@ -139,5 +150,25 @@ class NotelistActivity : AppCompatActivity() {
             }
         }
         return super.dispatchTouchEvent(ev)
+    }
+
+    private fun loadNextPage() {
+        val prefs = getSharedPreferences("auth", Context.MODE_PRIVATE)
+        val currentUser = prefs.getString("username", "me") ?: "me"
+
+        isLoading = true
+        CoroutineScope(Dispatchers.IO).launch {
+            val notesPage = repository.getLocalNotesPaginated(PAGE_SIZE, currentOffset)
+                .filter { it.creatorUsername == currentUser }
+
+            if (notesPage.isEmpty()) allLoaded = true
+            currentOffset += notesPage.size
+
+            withContext(Dispatchers.Main) {
+                allNotes.addAll(notesPage)
+                adapter.updateNotes(filterNotes(searchInput.text.toString().trim(), allNotes))
+                isLoading = false
+            }
+        }
     }
 }
