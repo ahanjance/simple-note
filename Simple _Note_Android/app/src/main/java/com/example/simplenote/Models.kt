@@ -44,8 +44,8 @@ data class NotesResponse(
 )
 
 
-
 data class NoteRequest(
     val title: String,
     val description: String
 )
+

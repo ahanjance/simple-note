@@ -12,5 +12,7 @@ data class LocalNote(
     val updatedAt: String,
     val creatorName: String,
     val creatorUsername: String,
-    val isSynced: Boolean = false
+    val isSynced: Boolean = false,
+    val idOnServer: Int? = null  // null if not yet on server
 )
+

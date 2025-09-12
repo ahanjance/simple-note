@@ -25,7 +25,8 @@ class NoteActivity : AppCompatActivity() {
     private lateinit var descriptionEditText: EditText
     private lateinit var backButton: ImageView
     private lateinit var saveButton: Button
-    private var noteId: Int = -1 // -1 = new note
+    private var noteId: Int = -1 // local id
+    private var idOnServer: Int? = null
     private lateinit var repository: NoteRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,12 +48,11 @@ class NoteActivity : AppCompatActivity() {
         }
 
         noteId = intent.getIntExtra("note_id", -1)
+        idOnServer = intent.getIntExtra("note_id_on_server", -1).takeIf { it != -1 }
 
-        // Back button closes activity
         backButton.setOnClickListener { finish() }
 
         if (noteId == -1) {
-            // New note
             titleEditText.setText("")
             descriptionEditText.setText("")
             titleEditText.hint = getString(R.string.note_title)
@@ -60,24 +60,18 @@ class NoteActivity : AppCompatActivity() {
             saveButton.setTextColor(getColor(R.color.colorDarkGrey))
             saveButton.isEnabled = false
         } else {
-            // Existing note
-            val noteTitle = intent.getStringExtra("note_title") ?: ""
-            val noteDescription = intent.getStringExtra("note_description") ?: ""
-            titleEditText.setText(noteTitle)
-            descriptionEditText.setText(noteDescription)
+            titleEditText.setText(intent.getStringExtra("note_title") ?: "")
+            descriptionEditText.setText(intent.getStringExtra("note_description") ?: "")
             titleEditText.hint = null
             descriptionEditText.hint = null
-            // Grey out save button initially
             saveButton.setTextColor(getColor(R.color.colorDarkGrey))
             saveButton.isEnabled = false
         }
 
-        // Enable/disable Save button on input changes
         val textWatcher = {
             val titleNotEmpty = titleEditText.text.toString().trim().isNotEmpty()
             val descNotEmpty = descriptionEditText.text.toString().trim().isNotEmpty()
 
-            // Check if text changed from original
             val changedFromOriginal = noteId == -1 ||
                     titleEditText.text.toString() != intent.getStringExtra("note_title") ||
                     descriptionEditText.text.toString() != intent.getStringExtra("note_description")
@@ -93,18 +87,18 @@ class NoteActivity : AppCompatActivity() {
         titleEditText.addTextChangedListener { textWatcher() }
         descriptionEditText.addTextChangedListener { textWatcher() }
 
-        // Save button click
         saveButton.setOnClickListener {
             if (!saveButton.isEnabled) return@setOnClickListener
 
             val now = Date().toString()
             val localNote = LocalNote(
                 id = if (noteId == -1) (0..Int.MAX_VALUE).random() else noteId,
+                idOnServer = idOnServer,
                 title = titleEditText.text.toString().trim(),
                 description = descriptionEditText.text.toString().trim(),
                 createdAt = now,
                 updatedAt = now,
-                creatorName = "Me", // or fetch from stored username
+                creatorName = "Me",
                 creatorUsername = "me",
                 isSynced = false
             )
@@ -113,13 +107,11 @@ class NoteActivity : AppCompatActivity() {
                 repository.saveNotesLocally(listOf(localNote))
             }
 
-            // Grey out the button after saving
             saveButton.isEnabled = false
             saveButton.setTextColor(getColor(R.color.colorDarkGrey))
         }
     }
 
-    // Hide keyboard when touching outside EditTexts
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
         if (ev.action == MotionEvent.ACTION_DOWN) {
             currentFocus?.let { view ->
