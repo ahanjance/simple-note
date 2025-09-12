@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".ChangePassActivity">
+
+    <!-- Back Button -->
+    <ImageView
+        android:id="@+id/button_back"
+        android:layout_width="66dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/button_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Center Title -->
+    <TextView
+        android:id="@+id/settingsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change Password"
+        style="@style/TextMediumBase"
+        android:textColor="@color/colorBlack"
+        app:layout_constraintTop_toTopOf="@id/button_back"
+        app:layout_constraintBottom_toBottomOf="@id/button_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Grey Divider -->
+    <View
+        android:id="@+id/divider_line1"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/colorLightGrey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/button_back" />
+
+    <!-- Scrollable Content -->
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/divider_line1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:id="@+id/scrollContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="16dp"
+            android:background="@color/colorWhite">
+
+            <!-- Helper text for Current Password -->
+            <TextView
+                android:id="@+id/helperCurrentPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Please input your current password first"
+                style="@style/TextMedium2Xs"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="4dp"/>
+
+            <!-- Current Password -->
+            <TextView
+                style="@style/TextMediumBase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Current Password"
+                android:textColor="@color/colorBlack"
+                android:layout_marginBottom="4dp"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputCurrentPasswordLayout"
+                style="@style/Widget.PlaceholderCredential"
+                android:hint="*********">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/inputCurrentPassword"
+                    style="@style/Widget.PlaceholderCredential.EditText"
+                    android:inputType="textPassword"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Divider -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@color/colorLightGrey"/>
+
+            <!-- Helper text for New Password -->
+            <TextView
+                android:id="@+id/helperNewPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Now create your new password"
+                style="@style/TextMedium2Xs"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp"
+                android:layout_marginBottom="4dp"/>
+
+            <!-- New Password -->
+            <TextView
+                style="@style/TextMediumBase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Password"
+                android:textColor="@color/colorBlack"
+                android:layout_marginBottom="4dp"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputNewPasswordLayout"
+                style="@style/Widget.PlaceholderCredential"
+                android:hint="*********">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/inputNewPassword"
+                    style="@style/Widget.PlaceholderCredential.EditText"
+                    android:inputType="textPassword"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Retype New Password -->
+            <TextView
+                style="@style/TextMediumBase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Retype New Password"
+                android:textColor="@color/colorBlack"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="4dp"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputRetypePasswordLayout"
+                style="@style/Widget.PlaceholderCredential"
+                android:hint="*********">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/inputRetypePassword"
+                    style="@style/Widget.PlaceholderCredential.EditText"
+                    android:inputType="textPassword"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Submit Button -->
+            <ImageView
+                android:id="@+id/button_submit_pass"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginTop="24dp"
+                android:src="@drawable/button_submit_pass"
+                android:scaleType="fitCenter"
+                android:background="@null"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

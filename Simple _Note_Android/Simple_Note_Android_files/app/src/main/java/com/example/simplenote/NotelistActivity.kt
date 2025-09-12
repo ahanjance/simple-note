@@ -9,6 +9,7 @@ import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +25,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import org.json.JSONObject
+
+
+
 
 class NotelistActivity : AppCompatActivity() {
 
@@ -115,7 +122,11 @@ class NotelistActivity : AppCompatActivity() {
         val prefs = getSharedPreferences("auth", Context.MODE_PRIVATE)
         username = prefs.getString("username", "me") ?: "me"
         val token = prefs.getString("access_token", null)
-        if (token.isNullOrBlank()) return
+
+        if (!token.isNullOrBlank()) {
+            fetchAndSaveUserInfo(token)
+        }
+
 
         // Observe local notes via LiveData filtered by logged-in user
         repository.getLocalNotesLive().observe(this, Observer { notes ->
@@ -171,4 +182,51 @@ class NotelistActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun fetchAndSaveUserInfo(token: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val client = OkHttpClient()
+                val request = Request.Builder()
+                    .url("https://simple.darkube.app/api/auth/userinfo/")
+                    .addHeader("Authorization", "Bearer $token")
+                    .build()
+
+                val response = client.newCall(request).execute()
+                if (response.isSuccessful) {
+                    val body = response.body?.string()
+                    if (!body.isNullOrEmpty()) {
+                        val json = JSONObject(body)
+                        val username = json.getString("username")
+                        val email = json.getString("email")
+
+                        // Save to SharedPreferences
+                        val prefs = getSharedPreferences("auth", Context.MODE_PRIVATE)
+                        prefs.edit()
+                            .putString("username", username)
+                            .putString("email", email)
+                            .apply()
+
+                    }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(
+                            this@NotelistActivity,
+                            "Failed to fetch user info",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(
+                        this@NotelistActivity,
+                        "Error: ${e.message}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
+    }
+
 }

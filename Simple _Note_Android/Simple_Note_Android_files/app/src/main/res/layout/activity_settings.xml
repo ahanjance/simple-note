@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".SettingsActivity">
+
+    <!-- Back Button -->
+    <ImageView
+        android:id="@+id/button_back"
+        android:layout_width="66dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/button_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Center Title -->
+    <TextView
+        android:id="@+id/settingsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Settings"
+        style="@style/TextMediumBase"
+        android:textColor="@color/colorBlack"
+        app:layout_constraintTop_toTopOf="@id/button_back"
+        app:layout_constraintBottom_toBottomOf="@id/button_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Grey Divider -->
+    <View
+        android:id="@+id/divider_line1"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/colorLightGrey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/button_back" />
+
+    <!-- User Info Container -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/userInfoContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:padding="12dp"
+        android:background="@color/colorWhite"
+        app:layout_constraintTop_toBottomOf="@id/divider_line1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- User Icon -->
+        <ImageView
+            android:id="@+id/icon_user"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:src="@drawable/icon_user"
+            android:scaleType="fitCenter"
+            app:layout_constraintWidth_percent="0.2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <!-- Username & Email -->
+        <LinearLayout
+            android:id="@+id/userDetails"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="15dp"
+            app:layout_constraintStart_toEndOf="@id/icon_user"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent="0.8">
+
+            <TextView
+                android:id="@+id/text_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Username"
+                style="@style/TextBoldLg"
+                android:textColor="@color/colorBlack"/>
+
+            <TextView
+                android:id="@+id/text_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="user@email.com"
+                style="@style/TextRegular2Xs"
+                android:textColor="@color/colorDarkGrey"/>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Divider below user info -->
+    <View
+        android:id="@+id/divider_line2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorLightGrey"
+        app:layout_constraintTop_toBottomOf="@id/userInfoContainer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- App Settings Title -->
+
+    <!-- Change Password Image Button -->
+    <TextView
+        android:id="@+id/appSettingsTitle"
+        style="@style/TextRegularXs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="20dp"
+        android:text="App Settings"
+        android:textColor="@color/colorDarkGrey"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider_line2" />
+
+    <ImageButton
+        android:id="@+id/button_change_pass"
+        android:layout_width="388dp"
+        android:layout_height="62dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="8dp"
+        android:adjustViewBounds="true"
+        android:background="@null"
+        android:padding="0dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/button_change_pass"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appSettingsTitle" />
+
+    <!-- Divider below change password -->
+    <View
+        android:id="@+id/divider_line3"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorLightGrey"
+        app:layout_constraintTop_toBottomOf="@id/button_change_pass"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Logout Button -->
+    <ImageButton
+        android:id="@+id/button_logout"
+        android:layout_width="388dp"
+        android:layout_height="62dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:adjustViewBounds="true"
+        android:background="@null"
+        android:padding="0dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/button_logout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider_line3"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
