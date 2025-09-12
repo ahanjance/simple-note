@@ -12,11 +12,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Observer
 import com.example.simplenote.local.LocalNote
 import com.example.simplenote.repository.NoteRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class NotelistActivity : AppCompatActivity() {
     private lateinit var repository: NoteRepository
@@ -27,7 +25,6 @@ class NotelistActivity : AppCompatActivity() {
         setContentView(R.layout.activity_notelist)
 
         val notesContainer = findViewById<LinearLayout>(R.id.notesContainer)
-        val scrollView = findViewById<ScrollView>(R.id.notesScrollView)
         val addNoteButton = findViewById<ImageView>(R.id.addNoteButton)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -54,16 +51,10 @@ class NotelistActivity : AppCompatActivity() {
             return
         }
 
-        CoroutineScope(Dispatchers.IO).launch {
-            // Load local cache
-            val localNotes = repository.getLocalNotes()
-            runOnUiThread { renderNotes(localNotes, notesContainer) }
-
-            // Fetch remote and update DB
-            repository.fetchAndCacheNotes(token)
-            val updatedNotes = repository.getLocalNotes()
-            runOnUiThread { renderNotes(updatedNotes, notesContainer) }
-        }
+        // Observe local notes
+        repository.getLocalNotesLive().observe(this, Observer { notes ->
+            renderNotes(notes, notesContainer)
+        })
     }
 
     private fun renderNotes(notes: List<LocalNote>, container: LinearLayout) {
@@ -88,7 +79,6 @@ class NotelistActivity : AppCompatActivity() {
                 btn.id = note.id
                 btn.text = "${note.title}: ${note.description.take(10)}"
                 btn.setOnClickListener {
-                    // Open NoteActivity with existing note info
                     val intent = Intent(this@NotelistActivity, NoteActivity::class.java)
                     intent.putExtra("note_id", note.id)
                     intent.putExtra("note_title", note.title)
