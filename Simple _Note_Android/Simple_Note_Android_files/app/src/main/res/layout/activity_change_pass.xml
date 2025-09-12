@@ -159,15 +159,29 @@
                     android:inputType="textPassword"/>
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Error Text -->
+
             <!-- Submit Button -->
+            <TextView
+                android:id="@+id/signupErrorText"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingBottom="8dp"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toTopOf="@id/button_submit_pass"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
             <ImageView
                 android:id="@+id/button_submit_pass"
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
                 android:layout_marginTop="24dp"
-                android:src="@drawable/button_submit_pass"
+                android:background="@null"
                 android:scaleType="fitCenter"
-                android:background="@null"/>
+                android:src="@drawable/button_submit_pass" />
 
         </LinearLayout>
 

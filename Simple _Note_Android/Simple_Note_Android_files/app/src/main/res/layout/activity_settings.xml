@@ -60,7 +60,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- User Icon -->
         <ImageView
             android:id="@+id/icon_user"
             android:layout_width="0dp"
@@ -72,7 +71,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <!-- Username & Email -->
         <LinearLayout
             android:id="@+id/userDetails"
             android:layout_width="0dp"
@@ -116,8 +114,6 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <!-- App Settings Title -->
-
-    <!-- Change Password Image Button -->
     <TextView
         android:id="@+id/appSettingsTitle"
         style="@style/TextRegularXs"
@@ -170,6 +166,95 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/divider_line3"/>
 
+    <!-- Logout Overlay -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/logoutOverlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#1A504EC3"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
+        <!-- Centered White Box -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/logoutBox"
+            android:layout_width="280dp"
+            android:layout_height="230dp"
+            android:background="@drawable/rounded_white_bg"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <!-- Title -->
+            <TextView
+                android:id="@+id/logoutTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Log Out"
+                style="@style/TextBoldLg"
+                android:textColor="@color/colorBlack"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="24dp"/>
+
+            <!-- Message -->
+            <TextView
+                android:id="@+id/logoutMessage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Are you sure you want to log out from the application?"
+                style="@style/TextRegularBase"
+                android:textColor="@color/colorDarkGrey"
+                android:textAlignment="center"
+                app:layout_constraintTop_toBottomOf="@id/logoutTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"/>
+
+            <!-- Buttons Row -->
+            <LinearLayout
+                android:id="@+id/logoutButtonsRow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                app:layout_constraintTop_toBottomOf="@id/logoutMessage"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="16dp"
+                android:weightSum="2">
+
+                <ImageButton
+                    android:id="@+id/button_cancel"
+                    android:layout_width="120dp"
+                    android:layout_height="48dp"
+                    android:background="@null"
+                    android:src="@drawable/button_cancel"
+                    android:layout_weight="1"/>
+
+                <View
+                    android:layout_width="16dp"
+                    android:layout_height="0dp" />
+
+                <ImageButton
+                    android:id="@+id/button_yes"
+                    android:layout_width="120dp"
+                    android:layout_height="48dp"
+                    android:background="@null"
+                    android:src="@drawable/button_yes"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
