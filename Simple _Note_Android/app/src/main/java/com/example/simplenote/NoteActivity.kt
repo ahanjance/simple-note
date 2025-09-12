@@ -35,6 +35,7 @@ class NoteActivity : AppCompatActivity() {
     private lateinit var overlay: View
     private lateinit var modalDeleteContainer: ConstraintLayout
     private lateinit var buttonClose: ImageButton
+    private lateinit var buttonDelNote: ImageButton
 
     private var noteId: Int = -1
     private var idOnServer: Int? = null
@@ -57,6 +58,7 @@ class NoteActivity : AppCompatActivity() {
         overlay = findViewById(R.id.overlay)
         modalDeleteContainer = findViewById(R.id.modal_delete_container)
         buttonClose = findViewById(R.id.button_close)
+        buttonDelNote = findViewById(R.id.button_delnote)
 
         repository = NoteRepository(this)
 
@@ -141,11 +143,20 @@ class NoteActivity : AppCompatActivity() {
         }
 
         // Close modal when overlay or close button clicked
-        overlay.setOnClickListener {
-            hideDeleteModal()
-        }
-        buttonClose.setOnClickListener {
-            hideDeleteModal()
+        overlay.setOnClickListener { hideDeleteModal() }
+        buttonClose.setOnClickListener { hideDeleteModal() }
+
+        // Delete note permanently
+        buttonDelNote.setOnClickListener {
+            if (noteId != -1) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    repository.deleteLocalNote(noteId)
+                    withContext(Dispatchers.Main) {
+                        hideDeleteModal()
+                        finish() // Go back to NoteListActivity
+                    }
+                }
+            }
         }
     }
 

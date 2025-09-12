@@ -25,6 +25,11 @@ class NoteRepository(context: Context) {
         noteDao.insertNotes(notes)
     }
 
+    // Delete a note by its local ID
+    suspend fun deleteLocalNote(noteId: Int) {
+        noteDao.deleteNoteById(noteId)
+    }
+
     // Fetch notes from server and replace local copies (local always wins on conflicts later)
     suspend fun fetchAndCacheNotes(token: String) {
         try {
