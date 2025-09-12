@@ -16,7 +16,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"
-        app:cardCornerRadius="12dp"
+        app:cardCornerRadius="8dp"
         app:cardBackgroundColor="@color/colorWhite"
         app:cardElevation="2dp"
         app:layout_constraintTop_toTopOf="parent"
@@ -57,7 +57,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
-    <!-- Guideline at 90% height -->
+    <!-- Guideline at 90% height (for bottom bar) -->
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineTopOfBottomDiv"
         android:layout_width="wrap_content"
@@ -65,25 +65,18 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.90" />
 
-    <!-- Upper div: Scrollable container for notes -->
-    <ScrollView
-        android:id="@+id/notesScrollView"
+    <!-- RecyclerView for notes (2-column grid) -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewNotes"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:fillViewport="true"
+        android:padding="12dp"
+        android:clipToPadding="false"
         app:layout_constraintTop_toBottomOf="@id/searchBarCard"
         app:layout_constraintBottom_toTopOf="@id/bottomDiv"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <LinearLayout
-            android:id="@+id/notesContainer"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:gravity="center_horizontal"/>
-    </ScrollView>
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/item_note" />
 
     <!-- Bottom div (10% height) -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -124,7 +117,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- Floating Add Note Button -->
+    <!-- Floating Add Note Button (overlapping bottomDiv) -->
     <ImageView
         android:id="@+id/addNoteButton"
         android:layout_width="80dp"
