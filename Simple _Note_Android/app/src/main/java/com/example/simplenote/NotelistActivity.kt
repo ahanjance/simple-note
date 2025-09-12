@@ -3,11 +3,8 @@ package com.example.simplenote
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.ScrollView
-import android.widget.TextView
+import androidx.core.widget.addTextChangedListener
+import android.widget.*
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -17,15 +14,20 @@ import com.example.simplenote.local.LocalNote
 import com.example.simplenote.repository.NoteRepository
 
 class NotelistActivity : AppCompatActivity() {
+
     private lateinit var repository: NoteRepository
+    private lateinit var notesContainer: LinearLayout
+    private lateinit var searchInput: EditText
+    private var allNotes: List<LocalNote> = emptyList() // Keep full list for filtering
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_notelist)
 
-        val notesContainer = findViewById<LinearLayout>(R.id.notesContainer)
+        notesContainer = findViewById(R.id.notesContainer)
         val addNoteButton = findViewById<ImageView>(R.id.addNoteButton)
+        searchInput = findViewById(R.id.searchInput)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -53,26 +55,37 @@ class NotelistActivity : AppCompatActivity() {
 
         // Observe local notes
         repository.getLocalNotesLive().observe(this, Observer { notes ->
-            renderNotes(notes, notesContainer)
+            allNotes = notes
+            displayNotes(allNotes)
         })
+
+        // Real-time search: filter notes as user types
+        searchInput.addTextChangedListener { editable ->
+            val query = editable.toString().trim().lowercase()
+            val filtered = allNotes.filter { note ->
+                note.title.lowercase().contains(query) || note.description.lowercase().contains(query)
+            }
+            displayNotes(filtered)
+        }
     }
 
-    private fun renderNotes(notes: List<LocalNote>, container: LinearLayout) {
-        container.removeAllViews()
+    private fun displayNotes(notes: List<LocalNote>) {
+        notesContainer.removeAllViews()
+
         if (notes.isEmpty()) {
             val illustration = ImageView(this)
             illustration.setImageResource(R.drawable.illustration2)
-            container.addView(illustration)
+            notesContainer.addView(illustration)
 
             val text1 = TextView(this)
             text1.text = "No notes yet!"
             text1.textSize = 18f
-            container.addView(text1)
+            notesContainer.addView(text1)
 
             val text2 = TextView(this)
             text2.text = "Tap the + button to add your first note."
             text2.textSize = 14f
-            container.addView(text2)
+            notesContainer.addView(text2)
         } else {
             for (note in notes) {
                 val btn = Button(this)
@@ -85,7 +98,7 @@ class NotelistActivity : AppCompatActivity() {
                     intent.putExtra("note_description", note.description)
                     startActivity(intent)
                 }
-                container.addView(btn)
+                notesContainer.addView(btn)
             }
         }
     }
