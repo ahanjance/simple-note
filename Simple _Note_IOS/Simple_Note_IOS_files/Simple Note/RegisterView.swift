@@ -7,13 +7,15 @@ struct RegisterView: View {
     @State private var email = ""
     @State private var password = ""
     @State private var confirmPassword = ""
+    @State private var isLoading = false
+    @State private var errorMessage: String? = nil
 
     var onGoLogin: () -> Void = {}
     var onRegister: () -> Void = {}
 
     var body: some View {
         ZStack {
-            Color.white.ignoresSafeArea()
+            Color.white .ignoresSafeArea()
 
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 0) {
@@ -70,25 +72,34 @@ struct RegisterView: View {
                     .padding(.bottom, 40)
 
                     // --- Register Button ---
-                    Button(action: onRegister) {
+                    Button(action: handleRegister) {
                         HStack {
                             Spacer()
                             Text("Register")
                                 .font(.custom("Inter-Medium", size: 17))
                                 .frame(height: 22)
                             Spacer()
-                            Image(systemName: "arrow.right")
+                            Image(systemName: isLoading ? "hourglass" : "arrow.right")
                                 .font(.system(size: 20, weight: .bold))
                                 .padding(.trailing, 12)
                         }
                         .frame(width: 328, height: 54)
                     }
+                    .disabled(isLoading)
                     .foregroundColor(.white)
                     .background(Color(hex: "#504EC3"))
                     .cornerRadius(100)
                     .padding(.leading, 16)
                     .padding(.trailing, 16)
                     .padding(.bottom, 16)
+
+                    if let errorMessage = errorMessage {
+                        Text(errorMessage)
+                            .font(.custom("Inter-Regular", size: 12))
+                            .foregroundColor(.red)
+                            .padding(.leading, 16)
+                            .padding(.bottom, 8)
+                    }
 
                     // --- Bottom Link ---
                     Button(action: onGoLogin) {
@@ -105,6 +116,25 @@ struct RegisterView: View {
                 }
                 .padding(.top, 10)
             }
+        }
+    }
+
+    private func handleRegister() {
+        guard password == confirmPassword else {
+            errorMessage = "Passwords do not match"
+            return
+        }
+        Task { @MainActor in
+            isLoading = true
+            errorMessage = nil
+            do {
+                try await AuthService.shared.register(username: username, email: email, password: password, first: firstName, last: lastName)
+                try await AuthService.shared.login(usernameOrEmail: username, password: password)
+                onRegister()
+            } catch {
+                errorMessage = "Registration failed"
+            }
+            isLoading = false
         }
     }
 }

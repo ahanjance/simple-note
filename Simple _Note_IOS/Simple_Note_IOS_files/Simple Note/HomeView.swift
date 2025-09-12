@@ -6,10 +6,8 @@ struct HomeView: View {
     var onNoteTapped: (Note) -> Void = { _ in }
 
     @State private var searchText: String = ""
-    @State private var notes: [Note] = [
-        Note(title: "💡 New Product Idea Design", content: "Create a mobile app UI Kit that provide a basic notes functionality but with some improvement.\n\nThere will be a choice to select what kind of notes that user needed, so the experience while taking notes can be unique based on the needs.", backgroundColor: Color(hex: "#F5FCD0")),
-        Note(title: "💡 New Product Idea Design", content: "Create a mobile app UI Kit that provide a basic notes functionality but with some improvement.\n\nThere will be a choice to select what kind of notes that user needed, so the experience while taking notes can be unique based on the needs.", backgroundColor: Color(hex: "#FDEBAB"))
-    ]
+    @State private var notes: [Note] = []
+    @State private var isLoading = false
 
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -25,6 +23,9 @@ struct HomeView: View {
                         .foregroundColor(Color(hex: "#180E25"))
                         .padding(.vertical, 12)
                         .padding(.trailing, 12)
+                        .onSubmit {
+                            handleSearch()
+                        }
                 }
                 .frame(height: 36)
                 .background(Color.white)
@@ -131,6 +132,32 @@ struct HomeView: View {
             .ignoresSafeArea(edges: .bottom)
         }
         .navigationBarHidden(true)
+        .onAppear(perform: loadNotes)
+    }
+
+    private func loadNotes() {
+        guard !isLoading else { return }
+        Task { @MainActor in
+            isLoading = true
+            do {
+                let page = try await NotesService.shared.list(pageSize: 50)
+                notes = page.results.map(Note.init(from:))
+            } catch {
+                // keep empty list on error
+            }
+            isLoading = false
+        }
+    }
+
+    private func handleSearch() {
+        Task { @MainActor in
+            do {
+                let page = try await NotesService.shared.filter(title: searchText)
+                notes = page.results.map(Note.init(from:))
+            } catch {
+                // ignore
+            }
+        }
     }
 }
 

@@ -46,9 +46,16 @@ struct RootView: View {
                             onBack: { path.removeLast() },
                             onDelete: { showNoteDeleteConfirmation = true },
                             onSave: { title, content, color in
-                                // Save logic (e.g., add to notes array)
-                                notes.append(Note(title: title, content: content, backgroundColor: color))
-                                path.removeLast()
+                                Task { @MainActor in
+                                    do {
+                                        let created = try await NotesService.shared.create(title: title, description: content)
+                                        notes.insert(Note(from: created), at: 0)
+                                        path.removeLast()
+                                    } catch {
+                                        // If API fails, keep UX: still pop back
+                                        path.removeLast()
+                                    }
+                                }
                             }
                         )
                     case "noteDetail":
@@ -104,6 +111,8 @@ struct RootView: View {
                     onConfirm: {
                         showLogoutConfirmation = false
                         path = NavigationPath()  // Log out and reset to onboarding/login
+                        AuthStorage.shared.clear()
+                        notes.removeAll()
                     }
                 )
                 .transition(.scale)

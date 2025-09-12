@@ -3,6 +3,8 @@ import SwiftUI
 struct LoginView: View {
     @State private var email = ""
     @State private var password = ""
+    @State private var isLoading = false
+    @State private var errorMessage: String? = nil
 
     var onLogin: () -> Void = {}
     var onRegisterTap: () -> Void = {}
@@ -63,18 +65,19 @@ struct LoginView: View {
 
             // ---- Actions (Login, Or, Register) ----
             VStack(spacing: 0) {
-                Button(action: onLogin) {
+                Button(action: handleLogin) {
                     HStack {
                         Spacer()
                         Text("Login")
                             .font(.custom("Inter-Medium", size: 17))
                             .padding(.trailing, 97)  // Add space between text and arrow
-                        Image(systemName: "arrow.right")
+                        Image(systemName: isLoading ? "hourglass" : "arrow.right")
                             .font(.system(size: 17, weight: .semibold))
                             .padding(.trailing, 16)  // Move arrow left from right edge
                     }
                     .frame(width: 328, height: 54)
                 }
+                .disabled(isLoading)
                 .foregroundColor(.white)
                 .background(Color(hex: "#504EC3"))
                 .cornerRadius(100)
@@ -99,12 +102,33 @@ struct LoginView: View {
             }
             .frame(width: 328, height: 120)
 
+            if let errorMessage = errorMessage {
+                Text(errorMessage)
+                    .font(.custom("Inter-Regular", size: 12))
+                    .foregroundColor(.red)
+                    .padding(.top, 8)
+            }
+
             Spacer()
         }
         .frame(width: 360, height: 543)
         .padding(.top, 101)
         .padding(.horizontal, 16)
         .background(Color.white)
+    }
+
+    private func handleLogin() {
+        Task { @MainActor in
+            isLoading = true
+            errorMessage = nil
+            do {
+                try await AuthService.shared.login(usernameOrEmail: email, password: password)
+                onLogin()
+            } catch {
+                errorMessage = "Login failed"
+            }
+            isLoading = false
+        }
     }
 }
 #Preview {

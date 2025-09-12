@@ -6,6 +6,8 @@ struct ChangePasswordView: View {
     @State private var retypeNewPassword: String = ""
     var onBack: () -> Void = {}
     var onSubmit: () -> Void = {}  // Callback to navigate back to Settings after submit
+    @State private var isLoading = false
+    @State private var errorMessage: String? = nil
 
     var body: some View {
         VStack(spacing: 0) {
@@ -123,13 +125,13 @@ struct ChangePasswordView: View {
             Spacer()
 
             // Submit Button with onSubmit callback
-            Button(action: onSubmit) {
+            Button(action: handleSubmit) {
                 HStack {
                     Spacer()
                     Text("Submit New Password")
                         .font(.custom("Inter-Medium", size: 16))
                         .foregroundColor(.white)
-                    Image(systemName: "arrow.right")
+                    Image(systemName: isLoading ? "hourglass" : "arrow.right")
                         .resizable()
                         .frame(width: 15, height: 12)
                         .foregroundColor(.white)
@@ -145,6 +147,34 @@ struct ChangePasswordView: View {
         }
         .background(Color.white.ignoresSafeArea())
         .navigationBarBackButtonHidden(true)  // Hide default navigation back button
+        .overlay(
+            Group {
+                if let errorMessage = errorMessage {
+                    Text(errorMessage)
+                        .font(.custom("Inter-Regular", size: 12))
+                        .foregroundColor(.red)
+                        .padding(.bottom, 90)
+                }
+            }, alignment: .bottom
+        )
+    }
+
+    private func handleSubmit() {
+        guard newPassword == retypeNewPassword else {
+            errorMessage = "Passwords do not match"
+            return
+        }
+        Task { @MainActor in
+            isLoading = true
+            errorMessage = nil
+            do {
+                try await AuthService.shared.changePassword(old: currentPassword, new: newPassword)
+                onSubmit()
+            } catch {
+                errorMessage = "Failed to change password"
+            }
+            isLoading = false
+        }
     }
 }
 
