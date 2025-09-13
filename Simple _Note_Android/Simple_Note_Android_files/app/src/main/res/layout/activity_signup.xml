@@ -7,6 +7,19 @@
     android:layout_height="match_parent"
     android:background="@color/colorWhite">
 
+    <!-- Back Button -->
+    <ImageView
+        android:id="@+id/button_back"
+        android:layout_width="66dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/button_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <!-- Top guideline at 10% -->
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineTop"

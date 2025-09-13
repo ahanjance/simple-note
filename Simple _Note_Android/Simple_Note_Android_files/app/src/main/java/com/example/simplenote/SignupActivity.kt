@@ -65,6 +65,13 @@ class SignupActivity : AppCompatActivity() {
             finish()
         }
 
+        // ✅ Back button functionality
+        val backButton = findViewById<ImageView>(R.id.button_back)
+        backButton.setOnClickListener {
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+        }
+
         val signupButton = findViewById<ImageView>(R.id.signupButton)
 
         signupButton.setOnClickListener {
@@ -108,7 +115,6 @@ class SignupActivity : AppCompatActivity() {
                     )
 
                     runOnUiThread {
-                        // Revert color once response arrives
                         signupButton.clearColorFilter()
 
                         if (response.isSuccessful) {
@@ -178,7 +184,7 @@ class SignupActivity : AppCompatActivity() {
                 } catch (e: Exception) {
                     Log.e("Signup", "Exception: ${e.message}")
                     runOnUiThread {
-                        signupButton.clearColorFilter() // revert color
+                        signupButton.clearColorFilter()
                         signupErrorText.text = "Server error"
                         signupErrorText.visibility = TextView.VISIBLE
                     }
