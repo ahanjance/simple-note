@@ -13,6 +13,9 @@ interface ApiService {
     @POST("api/auth/register/")
     suspend fun register(@Body request: RegisterRequest): Response<TokenResponse>
 
+    @POST("api/auth/refresh/")
+    suspend fun refreshToken(@Body request: RefreshRequest): Response<RefreshResponse>
+
     // --- Notes ---
     @GET("api/notes/")
     suspend fun getNotes(

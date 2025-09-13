@@ -7,6 +7,7 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
+import android.view.animation.AnimationUtils
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
@@ -28,9 +29,6 @@ import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
-
-
-
 
 class NotelistActivity : AppCompatActivity() {
 
@@ -69,7 +67,7 @@ class NotelistActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.recyclerViewNotes)
         searchInput = findViewById(R.id.searchInput)
         addNoteButton = findViewById(R.id.addNoteButton)
-        settingsButton = findViewById(R.id.settingsButton) // ✅ grab settings button
+        settingsButton = findViewById(R.id.settingsButton)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(android.view.WindowInsets.Type.systemBars())
@@ -98,10 +96,13 @@ class NotelistActivity : AppCompatActivity() {
             }
         }
 
-        // Add-note button
+        // Load scale animation
+        val buttonScale = AnimationUtils.loadAnimation(this, R.anim.button_scale)
+
+        // Add-note button with scale animation
         addNoteButton.setOnTouchListener { v, event ->
             when (event.action) {
-                MotionEvent.ACTION_DOWN -> v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start()
+                MotionEvent.ACTION_DOWN -> v.startAnimation(buttonScale)
                 MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                     v.animate().scaleX(1f).scaleY(1f).setDuration(100).start()
                     if (event.action == MotionEvent.ACTION_UP) {
@@ -113,12 +114,14 @@ class NotelistActivity : AppCompatActivity() {
             true
         }
 
-        // ✅ Settings button → open SettingsActivity
+        // Settings button with scale animation
         settingsButton.setOnClickListener {
+            it.startAnimation(buttonScale)
             val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
         }
 
+        // Load user info from SharedPreferences
         val prefs = getSharedPreferences("auth", Context.MODE_PRIVATE)
         username = prefs.getString("username", "me") ?: "me"
         val token = prefs.getString("access_token", null)
@@ -126,7 +129,6 @@ class NotelistActivity : AppCompatActivity() {
         if (!token.isNullOrBlank()) {
             fetchAndSaveUserInfo(token)
         }
-
 
         // Observe local notes via LiveData filtered by logged-in user
         repository.getLocalNotesLive().observe(this, Observer { notes ->
@@ -206,7 +208,6 @@ class NotelistActivity : AppCompatActivity() {
                             .putString("username", username)
                             .putString("email", email)
                             .apply()
-
                     }
                 } else {
                     withContext(Dispatchers.Main) {
